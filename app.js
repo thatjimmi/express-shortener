@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 
 app.use('/encode', encodeRouter)
-app.use('/decode', decodeRouter)
+app.use('/', decodeRouter)
 
 app.use(errorHandler)
 app.use(handleNonExistingRoute)

@@ -1,10 +1,13 @@
 import express from 'express'
-import { decodeShortUrl, noShortIdProvided } from '../Controllers/decode.controller.js'
+import { decodeShortUrl, noShortIdProvided, redirectShortUrl } from '../Controllers/decode.controller.js'
 
 const decodeRouter = express.Router()
 
-decodeRouter.get('/:shortId', decodeShortUrl)
-decodeRouter.get('', noShortIdProvided)
+decodeRouter.get('/decode', noShortIdProvided)
+decodeRouter.get('/:shortId', redirectShortUrl)
+decodeRouter.get('/decode/:shortId', decodeShortUrl)
+
+
 
 
 export { decodeRouter }
