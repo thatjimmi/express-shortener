@@ -9,7 +9,8 @@ const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
 let shortenedCache = {}
 
 const encodeUrl = (req, res) => {
-    const { url } = req.body
+    const { url } = req.body    
+    let { shortId } = req.body
     
     if(!url){
         const error = new Error('Please provide a URL')
@@ -29,10 +30,12 @@ const encodeUrl = (req, res) => {
         res.json({shortURL: `${baseUrl}/${shortenedCache[url]}`, encodedUrl: url})
     }         
     else { 
-        const shortId = Math.random().toString(36).substring(6)
-        // Make sure the short ID is unique and not already in the map
-        while (shortenedUrls.has(shortId)) {
+        if(!shortId){
             shortId = Math.random().toString(36).substring(6)
+            // Make sure the short ID is unique and not already in the map
+            while (shortenedUrls.has(shortId)) {
+            shortId = Math.random().toString(36).substring(6)
+            }
         }
         shortenedUrls.set(shortId, url)         
         shortenedCache[url] = shortId

@@ -37,6 +37,14 @@ describe('API Test Suite', () => {
         }
     })
 
+    // providing a shortid in the request body should return the same shortid
+    it('should return the same shortid when providing a shortid in the request body', async () => {
+        let { status, body: { shortURL } } = await supertest(baseUrl).post('/encode').send({url: 'https://example.com', shortId: 'test'});
+        expect(status).toBe(200);
+        expect(shortURL).toBeDefined();
+        expect(shortURL).toBe(`${baseUrl}/test`)
+    })
+
     it('should encode to the same short url for the same url', async () => {
         let urlToEncode = 'https://www.finn.auto/subscribe';
         let response1 = await supertest(baseUrl).post('/encode').send({url: urlToEncode});
