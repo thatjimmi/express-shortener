@@ -2,13 +2,13 @@ import { shortenedUrls } from "../db/memoryStorage.js"
 
 const decodeShortUrl = (req, res) => {
     const { shortId } = req.params
-
+    console.log(shortenedUrls)
     if (!shortenedUrls.has(shortId)) {
         const error = new Error('The provided short URL is not valid')
         error.status = 404
         throw error
     }
-
+    
     res.json({decodedUrl: shortenedUrls.get(shortId)})         
 }
 

@@ -43,4 +43,39 @@ const encodeUrl = (req, res) => {
     }
 }
 
-export { encodeUrl }
+const editURL = (req, res) => {
+    const { url, shortId } = req.body
+    
+    if(!url || !shortId){
+        const error = new Error('Please provide a URL and a short ID')
+        error.status = 400
+        throw error        
+    }
+
+    // Check if the URL is valid and if url is already in the cache
+    if (!isUrlValid(url)  || !shortenedCache[url]) {
+        const error = new Error('The provided URL is not valid')
+        error.status = 400
+        throw error
+    }
+
+    // delete the old URL from the cache
+    delete shortenedCache[shortenedUrls.get(shortId)]
+
+    // Add the new ShortId with URL to the map 
+    shortenedUrls.set(shortId, url)
+
+    // delete old shortId from map
+    let oldShortId = shortenedCache[url]
+    shortenedUrls.delete(oldShortId)    
+
+    // update the cache
+    shortenedCache[url] = shortId
+
+    res.json({shortURL: `${baseUrl}/${shortId}`, encodedUrl: url})
+
+
+}
+
+
+export { encodeUrl, editURL }

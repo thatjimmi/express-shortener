@@ -3,8 +3,11 @@ import express from 'express'
 import { encodeRouter } from './Routes/encode.routes.js'
 import { decodeRouter } from './Routes/decode.routes.js'
 import { errorHandler, handleNonExistingRoute } from './Middleware/middleware.js'
+import cors from 'cors'
 
 const app = express()
+
+app.use(cors())
 
 app.use(express.json())
 
